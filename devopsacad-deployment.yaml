@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsacad-app
+  namespace: devopsacad
+  labels:
+    app: devopsacad-app
+spec:
+  selector:
+    matchLabels:
+      app: devopsacad-app
+  replicas: 1
+  template:
+    metadata: 
+      labels:
+        app: devopsacad-app
+    spec:
+      containers:
+      - name: devopsacad-app
+        image: 052101902987.dkr.ecr.us-east-2.amazonaws.com/jenkins-docker-image:6 #This is the URI of a docker image in my ECR
+        ports:
+        - containerPort: 8080

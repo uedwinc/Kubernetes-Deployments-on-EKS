@@ -27,9 +27,15 @@ This project involves the following:
     - Click on 'Create stack'
     - Check 'Template is ready' and check 'Amazon S3 URL'
     - Paste the yaml template url copied from the documentation page above (https://docs.aws.amazon.com/eks/latest/userguide/creating-a-vpc.html) and click on next.
+
         + You can use view in designer to see pictorial view of the architecture of the resources to be created
+
+![template1-designer]()
+
     - Give it a stack name. Click on next. Continue until Submit.
     - This creates all the resources and connections
+
+![cloud formation]()
 
 3. Create EKS Cluster
 
@@ -42,6 +48,8 @@ This project involves the following:
     - For cluster endpoint access, choose public and private and click next
     - Leave configure logging and select add-ons as default and click next, and next.
     - Then review and create (takes some time)
+
+![cluster]()
 
 4. Setup an EC2 instance to interact with the cluster
 
@@ -58,14 +66,16 @@ This project involves the following:
     - Do `aws configure list` to confirm
 
 - Connecting to the cluster
-    - `aws eks update kubeconfig --region specify-region --name name-of-cluster`
-        - This creates a /root/.kube/config file. `ls -a` to see.
+    - `aws eks update-kubeconfig --region specify-region --name name-of-cluster`
+        - This creates a /root/.kube/config file. Do `ls -a` to see the .kube directory.
 
 - Install kubectl
     - Follow the 'install using native package management' here: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
     - `kubectl version`
     - `kubectl get all -A`
     - `kubectl cluster-info`
+
+![kubectl]()
 
 5. Create IAM role for the node group
 
@@ -93,23 +103,39 @@ This project involves the following:
         + Check 'configure remote access to nodes'
             - Select EC2 key pair and check 'all' for remote access. Then click next.
         + Review and create
-        + This should add more EC2 instances
+    
+![node group]()
+
+    - This should add more EC2 instances
+
+![more instances]()
 
     `kubectl get all -A` to see all resources
+
+![get all]()
+
     `kubectl get nodes`
+
+![get nodes]()
 
 7. Install ingress
 
 - Follow the process here: https://kubernetes.github.io/ingress-nginx/deploy/#aws
-    - This will install the ingress controller and deploy network load balancer
-    - `kubectl get ns` to see namespaces
 
-8. Create namespaces
+    - This will install the ingress controller and deploy network load balancer
+
+    - `kubectl get ns` to see ingress-nginx namespace created
+
+8. Create namespaces for deployments
+
     `kubectl create ns mongo`
+
     `kubectl create ns devopsacad`
 
 9. Create a directory for all our deployment files
+
     `mkdir manifests`
+
     `cd manifests`
 
 10. Create and paste the code for all our deployment and service files
@@ -129,6 +155,8 @@ This project involves the following:
     `kubectl apply -f devopsacad-deployment.yaml`
     `kubectl apply -f devopsacad-svc.yaml`
     - Do `kubectl get all -A` to see all resources
+
+![kubectl get all]()
 
 12. Get load balancer endpoint
     - In the instance page, scroll down and open load balancers
